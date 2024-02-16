@@ -27,12 +27,7 @@ void Lander :: reset(const Position & posUpperRight)
    pos.setX(posUpperRight.getX() - 1.0); 
    pos.setY(random(posUpperRight.getY() * 0.75, posUpperRight.getY() * 0.95));
    status = PLAYING;
-   fuel = FUEL_MAX;
-   /*pos.setX(99.0);
-   pos.setY(random(75.0, 95.0));
-   velocity.setDX(random(-10.0, -4.0));
-   velocity.setDY(random(-2.0, 2.0));*/
-   
+   fuel = FUEL_MAX;   
 }
 
 /***************************************************************
@@ -58,7 +53,6 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
    acceleration.addDDY(gravity);
    if (fuel == 0.0)
       return acceleration;
-   //double angle = thrust.rotation();
 
    if (thrust.isMain())
    {
@@ -66,7 +60,6 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
       acceleration.addDDX(-sin(angle.getRadians())* power); 
       acceleration.addDDY((cos(angle.getRadians()) * power)); 
       fuel -= FUEL_MAIN_THRUST;
-      //cout << fuel << "\n";
    }
 
    if (thrust.isClock()) 

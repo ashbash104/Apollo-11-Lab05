@@ -23,9 +23,7 @@ class Star
 public:
    // Constructor
    Star() : pos(Position(0, 0)), phase(0) {}
-   // Star() : position(random(-200, 200), random(-200, 200)), phase(random(0, 255)) {}
    Star(const Position& pos, unsigned char p) : pos(pos), phase(p) {}
-   //static std::vector<Star> reset(); 
 
    void reset(double width, double height)
    {
@@ -39,8 +37,6 @@ public:
    {
       gout.drawStar(pos, phase++);
    }
-
-   // Method to generate 50 stars with random positions and phases
 
 private:
    Position pos; // Position of the star

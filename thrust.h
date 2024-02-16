@@ -34,11 +34,6 @@ public:
    {
       return (clockwise ? 0.1 : 0.0) +
       (counterClockwise ? -0.1 : 0.0);
-      /*double radAngle = 0.0;
-      if (clockwise == true && counterClockwise == false) { radAngle += 0.1; }
-      else if (clockwise == false && counterClockwise == true) { radAngle -= 0.1; }
-
-      return radAngle;*/
    }
 
    // get main engine thrust in  m / s ^ 2
@@ -46,7 +41,6 @@ public:
    {
       return 45000.00 / 15103.00;
    }
-
 
    // reflect what is firing
    bool isMain()    const { return mainEngine == true;       }
@@ -59,7 +53,6 @@ public:
       mainEngine       = pUI->isDown();
       clockwise        = pUI->isLeft();
       counterClockwise = pUI->isRight();
-      //cout << mainEngine << ", " << clockwise << ", " << counterClockwise << "\n";
    }
 
 private:
@@ -67,5 +60,3 @@ private:
    bool clockwise;
    bool counterClockwise;
 };
-// Create object in simulator to get thrust, 
-// Set it

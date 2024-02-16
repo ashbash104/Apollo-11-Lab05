@@ -96,6 +96,7 @@ void Simulator::display()
 
    gout.setPosition(endText);
 
+   // change status and end when hits ground
    if (ground.hitGround(lander.getPosition(), LANDER_WIDTH))
    {
       gout << "Houston, we have a problem!" << endl;
@@ -103,6 +104,7 @@ void Simulator::display()
       needToSleep = true;
    }
 
+   // change status and end when lands
    if (ground.onPlatform(lander.getPosition(), LANDER_WIDTH))
    {
       gout << "The Eagle has landed!" << endl;
@@ -127,9 +129,9 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->thrust.set(pUI);
    pSimulator->lander.input(pSimulator->thrust, GRAVITY);
    pSimulator->lander.coast(pSimulator->lander.input(pSimulator->thrust, GRAVITY), TIME);
+
    // draw the game
    pSimulator->display();
-   //pSimulator->displayStars();
 }
 
 /*********************************

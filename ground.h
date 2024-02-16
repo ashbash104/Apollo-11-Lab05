@@ -12,7 +12,6 @@
 #include "position.h"   // for Point
 #include "uiDraw.h"  // for ogstream
 
-
  /***********************************************************
   * GROUND
   * The ground class
