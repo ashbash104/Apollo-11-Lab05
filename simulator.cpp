@@ -30,14 +30,12 @@ public:
    Thrust thrust;
 
    // set up the simulator
-   Simulator(const Position& posUpperRight) : phase(0), ground(posUpperRight), lander(posUpperRight), thrust() { }/*, lander(posUpperRight)*/ // Need to define lander.
+   Simulator(const Position& posUpperRight) : phase(0), ground(posUpperRight), lander(posUpperRight), thrust() { }
        
    // display stuff on the screen
    void display();
   
    unsigned char phase;
-   //Angle a;
-
    Ground ground;
 
    void show50Stars() 
@@ -65,8 +63,8 @@ void Simulator::display()
 // We need a method to coast and to grab the thrust from the UI. 
 // coast will take the thrust from get input and add velocity or acceleration to it. Input gets that from the UI, depending on what button is pressed.
 {
-   
    ogstream gout;
+   
    // draw a star
    Position posStar;
    posStar.setX(100);
@@ -74,9 +72,22 @@ void Simulator::display()
    gout.drawStar(posStar, phase);
    phase++;
 
+   string text = "Hello World";
+
+  /* Position posText;
+   posText.setX(-100);
+   posText.setY(-375);
+
+   ogstream ogstream;
+   ogstream.drawText(posTopLeft, text);*/
+
    //show50Stars();
    // draw the ground
    ground.draw(gout);
+   gout << "Fuel: " << lander.getFuel() << endl;
+   gout << "Altitude: " << ground.getElevation(lander.getPosition()) << endl;
+   gout << "Speed: " << lander.getSpeed() << endl;
+
 
    // draw the lander
    Position posLander;
@@ -88,6 +99,7 @@ void Simulator::display()
    //cout << a.getRadians() << "\n";
 
    //phase++;
+
 }
 
 

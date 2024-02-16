@@ -64,7 +64,7 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
       acceleration.addDDX(-sin(angle.getRadians())* power); 
       acceleration.addDDY((cos(angle.getRadians()) * power)); 
       fuel -= FUEL_MAIN_THRUST;
-      cout << fuel << "\n";
+      //cout << fuel << "\n";
    }
 
    if (thrust.isClock()) 
