@@ -346,7 +346,7 @@ void ogstream :: drawLanderFlames(const Position & pos, double angle,
    if (counterClockwise)
    {
       glBegin(GL_LINES);
-      glColor3f(1.0 /* red % */, 0.0 /* green % */, 0.0 /* blue % */);
+      glColor3f(0.0 /* red % */, 0.0 /* green % */, 1.0 /* blue % */);
       glVertexPoint(rotate(pos, 6, 12, angle));
       glVertexPoint(rotate(pos, random(6.0, 8.0), random(15.0, 18.0), angle));
       glVertexPoint(rotate(pos, 8, 12, angle));
@@ -360,7 +360,7 @@ void ogstream :: drawLanderFlames(const Position & pos, double angle,
    if (clockwise)
    {
       glBegin(GL_LINES);
-      glColor3f(1.0 /* red % */, 0.0 /* green % */, 0.0 /* blue % */);
+      glColor3f(0.0 /* red % */, 0.0 /* green % */, 1.0 /* blue % */);
       glVertexPoint(rotate(pos, 6, 11, angle));
       glVertexPoint(rotate(pos, random(6.0, 8.0), random(7.0, 10.0), angle));
       glVertexPoint(rotate(pos, 8, 11, angle));
@@ -440,8 +440,3 @@ double random(double min, double max)
 
    return num;
 }
-
-
-
-
-
