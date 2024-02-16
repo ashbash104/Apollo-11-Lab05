@@ -2,7 +2,7 @@
  * Header File:
  *    LANDER
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Emily Raventos, and Ashlee Hart
  * Summary:
  *    All the information about the lunar lander
  ************************************************************************/

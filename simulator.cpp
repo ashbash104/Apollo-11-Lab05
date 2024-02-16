@@ -2,7 +2,7 @@
  * LAB 06
  * Lunar Lander simulation. This is the Game class and main()
  * Authors: 
- *    Br. Helfirch, Ashlee Hart, Emily Raventos
+ *    Br. Helfirch, Ashlee Hart, and Emily Raventos
  **********************************************************************/
 
 #include "position.h"    // everything should have a point
@@ -60,12 +60,10 @@ public:
  * Draw on the screen
  **********************************************************/
 void Simulator::display()
-
-// We need a method to coast and to grab the thrust from the UI. 
-// coast will take the thrust from get input and add velocity or acceleration to it. Input gets that from the UI, depending on what button is pressed.
 {
    ogstream gout;
 
+   // Pause for user to see end message, then reset.
    if (needToSleep)
    {
       Sleep(2000);
@@ -74,20 +72,7 @@ void Simulator::display()
       ground.reset();
    }
 
-   //draw a star
-   //Position posStar;
-   //posStar.setX(random(-200, 400));
-   //posStar.setY(random(-200, 400));
-   //gout.drawStar(posStar, phase);
-   //phase++;
-
-   //Position posStar2;
-   //posStar2.setX(300);
-   //posStar2.setY(375);
-   //gout.drawStar(posStar2, phase);
-   //phase++;
-
-   //show50Stars();
+   // draw 50 stars
    drawStars(gout);
 
    // draw the ground

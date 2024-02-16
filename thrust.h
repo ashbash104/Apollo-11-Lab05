@@ -2,7 +2,7 @@
  * Header File:
  *    Thrust : Represents activation of thrusters
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Emily Raventos, and Ashlee Hart
  * Summary:
  *    down, clockwise, and counterclockwise
  ************************************************************************/

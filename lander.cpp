@@ -2,7 +2,7 @@
  * Source File:
  *    LANDER
  * Author:
- *    Br. Helfrich, Emily Raventos, Ashlee Hart
+ *    Br. Helfrich, Emily Raventos, and Ashlee Hart
  * Summary:
  *    All the information about the lunar lander
  ************************************************************************/

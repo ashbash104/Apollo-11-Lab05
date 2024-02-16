@@ -2,7 +2,7 @@
  * Header File:
  *    STAR
  * Author:
- *    Br. Helfrich, Ashlee Hart
+ *    Br. Helfrich, Ashlee Hart, and Emily Raventos
  * Sources:
  *    ChatGPT (but the code didn't work so not helpful)
  * Summary:
