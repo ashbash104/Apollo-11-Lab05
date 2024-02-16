@@ -41,8 +41,6 @@ public:
    }
 
    // Method to generate 50 stars with random positions and phases
-   
-
 
 private:
    Position pos; // Position of the star

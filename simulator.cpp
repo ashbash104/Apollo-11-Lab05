@@ -2,7 +2,7 @@
  * LAB 06
  * Lunar Lander simulation. This is the Game class and main()
  * Authors: 
- *    Br. Helfirch, Ashlee Hart
+ *    Br. Helfirch, Ashlee Hart, Emily Raventos
  **********************************************************************/
 
 #include "position.h"    // everything should have a point
@@ -13,13 +13,12 @@
 #include "test.h"        // for the unit tests
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
-#include "lander.h"
-#include "star.h"
-#include "acceleration.h"
-#include "windows.h"
+#include "lander.h"      // for lander
+#include "star.h"        // for star
+#include "acceleration.h"// for acceleration
+#include "windows.h"     // for sleep
 
 using namespace std;
-
 
 /*************************************************************************
  * SIMULATOR
@@ -33,25 +32,13 @@ public:
    bool needToSleep;
    Star stars[50];
 
-
    // set up the simulator
    Simulator(const Position& posUpperRight) : ground(posUpperRight), lander(posUpperRight), thrust(), needToSleep(false)
    {
-      
       for (int i = 0; i < 50; i++)
       {
          stars[i].reset(posUpperRight.getX(), posUpperRight.getY());
       }
-
-      //for each (Star star in stars)
-      //{
-      //   star.reset(posUpperRight.getX(), posUpperRight.getY());
-      //}
-
-      //for (int i = 0; i < 50; i++)
-      //{
-      //   stars[i].draw(gout);
-      //}
    }
        
    // display stuff on the screen
@@ -66,20 +53,6 @@ public:
          stars[i].draw(gout);
       }
    }
-
-   //void show50Stars() 
-   //{
-   //   ogstream gout; 
-   //   for (int i = 0; i < 50; i++)
-   //   {
-   //      // Create and set a random position 
-   //      Position posStar; 
-   //      posStar.setX(random(-200, 400)); 
-   //      posStar.setY(random(-375, 750)); 
-   //      gout.drawStar(posStar, phase); 
-   //      //phase++; 
-   //   }
-   //}
 };
 
 /**********************************************************
