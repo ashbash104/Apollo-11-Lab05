@@ -62,13 +62,13 @@ public:
       coast_all();
 
       //// input
-      //input_none();
-      //input_mainDown();
-      //input_mainLeft();
-      //input_mainDiagonal();
-      //input_coastClockwise();
-      //input_coastCounterClockwise();
-      //input_noFuel();
+      input_none();
+      input_mainDown();
+      input_mainLeft();
+      input_mainDiagonal();
+      input_coastClockwise();
+      input_coastCounterClockwise();
+      input_noFuel();
       
       report("Lander");
    }
@@ -899,8 +899,11 @@ private:
       a = l.input(t, gravity);
       
       // verify
+      std::cout << a.ddx << "\n";
       assertEquals(a.ddx, 2.9795404);  // thrust
+      std::cout << a.ddy << "\n";
       assertEquals(a.ddy, -1.0);       // gravity
+      std::cout << l.status << "\n";
       assertUnit(l.status == PLAYING);
       assertEquals(l.fuel, 90.0);      // 10 units of fuel
       assertEquals(l.pos.x, 0.0);

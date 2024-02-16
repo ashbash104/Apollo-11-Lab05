@@ -1,6 +1,8 @@
 /**********************************************************************
  * LAB 06
  * Lunar Lander simulation. This is the Game class and main()
+ * Authors: 
+ *    Br. Helfirch, Ashlee Hart
  **********************************************************************/
 
 #include "position.h"    // everything should have a point
@@ -11,7 +13,9 @@
 #include "test.h"        // for the unit tests
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
-//#include "lander.h"
+#include "lander.h"
+#include "star.h"
+#include "acceleration.h"
 using namespace std;
 
 
@@ -22,16 +26,33 @@ using namespace std;
 class Simulator
 {
 public:
-   //Lander lander;
+   Lander lander;
+   Thrust thrust;
+
    // set up the simulator
-   Simulator(const Position & posUpperRight) : phase(0), ground(posUpperRight)/*, lander(posUpperRight)*/ {} // Need to define lander.
+   Simulator(const Position& posUpperRight) : phase(0), ground(posUpperRight), lander(posUpperRight), thrust() { }/*, lander(posUpperRight)*/ // Need to define lander.
        
    // display stuff on the screen
    void display();
   
    unsigned char phase;
-   Angle a;
+   //Angle a;
+
    Ground ground;
+
+   void show50Stars() 
+   {
+      ogstream gout; 
+      for (int i = 0; i < 50; i++)
+      {
+         // Create and set a random position 
+         Position posStar; 
+         posStar.setX(random(-200, 400)); 
+         posStar.setY(random(-375, 750)); 
+         gout.drawStar(posStar, phase); 
+         //phase++; 
+      }
+   }
    
 };
 
@@ -40,9 +61,20 @@ public:
  * Draw on the screen
  **********************************************************/
 void Simulator::display()
-{
-   ogstream gout;
 
+// We need a method to coast and to grab the thrust from the UI. 
+// coast will take the thrust from get input and add velocity or acceleration to it. Input gets that from the UI, depending on what button is pressed.
+{
+   
+   ogstream gout;
+   // draw a star
+   Position posStar;
+   posStar.setX(100);
+   posStar.setY(375);
+   gout.drawStar(posStar, phase);
+   phase++;
+
+   //show50Stars();
    // draw the ground
    ground.draw(gout);
 
@@ -50,15 +82,12 @@ void Simulator::display()
    Position posLander;
    posLander.setX(200);
    posLander.setY(375);
-   gout.drawLander(posLander, a.getRadians());
+   //gout.drawLander(posLander, lander.getRadians());
+   //lander.coast(lander.input(pSimulator->thrust, gravity);
+   lander.draw(thrust, gout);
+   //cout << a.getRadians() << "\n";
 
-
-   // draw a star
-   Position posStar;
-   posStar.setX(100);
-   posStar.setY(375);
-   gout.drawStar(posStar, phase);
-   phase++;
+   //phase++;
 }
 
 
@@ -68,18 +97,26 @@ void Simulator::display()
  **************************************/
 void callBack(const Interface* pUI, void* p)
 {
+   ogstream gout;
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulator * pSimulator = (Simulator *)p;
-
+   pSimulator->thrust.set(pUI);
+   pSimulator->lander.input(pSimulator->thrust, GRAVITY);
+   pSimulator->lander.coast(pSimulator->lander.input(pSimulator->thrust, GRAVITY), TIME);
    // draw the game
    pSimulator->display();
 
-   // handle input
-   if (pUI->isRight())
-      pSimulator->a.add(-0.1);
-   if (pUI->isLeft())
-      pSimulator->a.add( 0.1);
+    //handle input
+   //if (pUI->isRight())
+   //   //pSimulator->lander.moveRight();
+   //   pSimulator->a.add(-0.1);
+   //if (pUI->isLeft())
+   //   //pSimulator->lander.moveLeft();  
+   //   pSimulator->a.add( 0.1);
+   //if (pUI->isDown())
+   //   //pSimulator->lander.moveDown();
+   //   gout.drawLanderFlames();
 
 
 }
@@ -116,6 +153,7 @@ int main(int argc, char** argv)
 
    // Initialize the game class
    Simulator simulator(posUpperRight);
+   //simulator.show50Stars();
 
    // set everything into action
    ui.run(callBack, (void *)&simulator);

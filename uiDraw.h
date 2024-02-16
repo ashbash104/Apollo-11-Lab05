@@ -54,7 +54,7 @@ public:
                                  bool right  = false);
 
    virtual void drawStar(        const Position& pt = Position(),
-                                 unsigned char phase = 0);
+                                 unsigned char phase = 1);
 
    virtual void drawRectangle(   const Position & posBegin,
                                  const Position & posEnd,

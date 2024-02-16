@@ -53,3 +53,6 @@ private:
    double dy;           // vertical velocity
 };
 
+// Inside callback  implement input anc ocast from lander
+// Use the contructor by using pointers.
+// With the stars, he just increment the phase in display

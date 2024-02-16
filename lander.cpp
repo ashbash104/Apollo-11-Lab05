@@ -9,6 +9,7 @@
 
 #include "lander.h"
 #include "acceleration.h"
+#include "thrust.h"
 
 
  /***************************************************************
@@ -17,13 +18,19 @@
   ***************************************************************/
 void Lander :: reset(const Position & posUpperRight)
 {
-   pos.setX(99.0);
-   pos.setY(random(75.0, 95.0));
-   angle.setRadians(0.0);
+   angle.setUp();
+   
    velocity.setDX(random(-10.0, -4.0));
    velocity.setDY(random(-2.0, 2.0));
+   pos.setX(posUpperRight.getX() - 1.0); 
+   pos.setY(random(posUpperRight.getY() * 0.75, posUpperRight.getY() * 0.95));
    status = PLAYING;
-   fuel = 5000.0;
+   fuel = FUEL_MAX;
+   /*pos.setX(99.0);
+   pos.setY(random(75.0, 95.0));
+   velocity.setDX(random(-10.0, -4.0));
+   velocity.setDY(random(-2.0, 2.0));*/
+   
 }
 
 /***************************************************************
@@ -32,6 +39,10 @@ void Lander :: reset(const Position & posUpperRight)
  ***************************************************************/
 void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
+   gout.drawLander(pos, angle.getRadians());
+   if (isFlying() && fuel > 0.0)
+      gout.drawLanderFlames(pos, angle.getRadians(),
+         thrust.isMain(), thrust.isClock(), thrust.isCounter());
 }
 
 /***************************************************************
@@ -40,14 +51,40 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
  ***************************************************************/
 Acceleration Lander :: input(const Thrust& thrust, double gravity)
 {
-   /*Acceleration acceleration;
-   double ddx = 0.0;
-   double ddy = gravity;
-   
-   
-   acceleration.setDDY(gravity);*/
-   pos.setX(0.0);
-   return Acceleration();
+   Acceleration acceleration; 
+
+   acceleration.addDDY(gravity);
+   if (fuel == 0.0)
+      return acceleration;
+   //double angle = thrust.rotation();
+
+   if (thrust.isMain())
+   {
+      double power = (LANDER_THRUST / LANDER_WEIGHT);
+      acceleration.addDDX(-sin(angle.getRadians())* power); 
+      acceleration.addDDY((cos(angle.getRadians()) * power)); 
+      fuel -= FUEL_MAIN_THRUST;
+      cout << fuel << "\n";
+   }
+
+   if (thrust.isClock()) 
+   {
+      angle.add(0.1);
+      fuel -= FUEL_ROTATE;
+   }
+
+   if (thrust.isCounter())
+   {
+      angle.add(-0.1);
+      fuel -= FUEL_ROTATE;
+   }
+
+   if (fuel < 0.0)
+   {
+      fuel = 0.0;
+   }
+
+   return acceleration;
 }
 
 /******************************************************************
@@ -57,9 +94,5 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
 void Lander :: coast(Acceleration & acceleration, double time)
 {
    velocity.add(acceleration, time);
-   velocity.setDX(velocity.getDX()); 
-   velocity.setDY(velocity.getDY());
-
-   pos.setX((pos.getX() + velocity.getDX() * time) + (0.5 * acceleration.getDDX() * (time * time))); 
-   pos.setY((pos.getY() + velocity.getDY() * time) + (0.5 * acceleration.getDDY() * (time * time)));
+   pos.add(acceleration, velocity, time);
 }

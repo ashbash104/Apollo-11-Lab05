@@ -2,7 +2,9 @@
  * Header File:
  *    STAR
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Ashlee Hart
+ * Sources:
+ *    ChatGPT (but the code didn't work so not helpful)
  * Summary:
  *    A single star that twinkles
  ************************************************************************/
@@ -20,30 +22,29 @@ class Star
 {
 public:
    // Constructor
+   Star() : pos(Position(0, 0)), phase(0) {}
    // Star() : position(random(-200, 200), random(-200, 200)), phase(random(0, 255)) {}
-   Star(const Position& pos, unsigned char p) : position(pos), phase(p) {}
+   Star(const Position& pos, unsigned char p) : pos(pos), phase(p) {}
+   //static std::vector<Star> reset(); 
+
+   void reset(double width, double height)
+   {
+      pos.setX(random(0.0, width));
+      pos.setY(random(0.0, height));
+      phase = random(0, 255);
+   }
 
    // Method to draw the star
-   void draw(ogstream& gout) const
+   void draw(ogstream & gout)
    {
-      gout.drawStar(position, phase);
+      gout.drawStar(pos, phase++);
    }
 
    // Method to generate 50 stars with random positions and phases
-   static std::vector<Star> reset()
-   {
-      std::vector<Star> stars;
-      for (int i = 0; i < 50; ++i)
-      {
-         Position position(random(-200, 200), random(-200, 200));
-         unsigned char phase = random(0, 255);
-         stars.emplace_back();
-      }         
-      return stars;
-   }
+   
 
 
 private:
-   Position position; // Position of the star
+   Position pos; // Position of the star
    unsigned char phase; // Phase of the star
 };
