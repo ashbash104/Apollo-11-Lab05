@@ -23,6 +23,9 @@ public:
    // the constructor generates the ground
    Ground(const Position & posUpperRight);
 
+   // Public getter frunction for posUpperRight()
+   Position getUpperRight() const { return posUpperRight; }
+
    // reset the game
    void reset();
 

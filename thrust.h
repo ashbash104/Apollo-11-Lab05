@@ -59,7 +59,7 @@ public:
       mainEngine       = pUI->isDown();
       clockwise        = pUI->isLeft();
       counterClockwise = pUI->isRight();
-      cout << mainEngine << ", " << clockwise << ", " << counterClockwise << "\n";
+      //cout << mainEngine << ", " << clockwise << ", " << counterClockwise << "\n";
    }
 
 private:

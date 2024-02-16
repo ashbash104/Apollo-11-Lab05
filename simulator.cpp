@@ -16,6 +16,8 @@
 #include "lander.h"
 #include "star.h"
 #include "acceleration.h"
+#include "windows.h"
+
 using namespace std;
 
 
@@ -25,33 +27,59 @@ using namespace std;
  *************************************************************************/
 class Simulator
 {
-public:
+public: 
    Lander lander;
    Thrust thrust;
+   bool needToSleep;
+   Star stars[50];
+
 
    // set up the simulator
-   Simulator(const Position& posUpperRight) : phase(0), ground(posUpperRight), lander(posUpperRight), thrust() { }
+   Simulator(const Position& posUpperRight) : ground(posUpperRight), lander(posUpperRight), thrust(), needToSleep(false)
+   {
+      
+      for (int i = 0; i < 50; i++)
+      {
+         stars[i].reset(posUpperRight.getX(), posUpperRight.getY());
+      }
+
+      //for each (Star star in stars)
+      //{
+      //   star.reset(posUpperRight.getX(), posUpperRight.getY());
+      //}
+
+      //for (int i = 0; i < 50; i++)
+      //{
+      //   stars[i].draw(gout);
+      //}
+   }
        
    // display stuff on the screen
    void display();
   
-   unsigned char phase;
    Ground ground;
 
-   void show50Stars() 
+   void drawStars(ogstream &gout)
    {
-      ogstream gout; 
       for (int i = 0; i < 50; i++)
       {
-         // Create and set a random position 
-         Position posStar; 
-         posStar.setX(random(-200, 400)); 
-         posStar.setY(random(-375, 750)); 
-         gout.drawStar(posStar, phase); 
-         //phase++; 
+         stars[i].draw(gout);
       }
    }
-   
+
+   //void show50Stars() 
+   //{
+   //   ogstream gout; 
+   //   for (int i = 0; i < 50; i++)
+   //   {
+   //      // Create and set a random position 
+   //      Position posStar; 
+   //      posStar.setX(random(-200, 400)); 
+   //      posStar.setY(random(-375, 750)); 
+   //      gout.drawStar(posStar, phase); 
+   //      //phase++; 
+   //   }
+   //}
 };
 
 /**********************************************************
@@ -64,44 +92,69 @@ void Simulator::display()
 // coast will take the thrust from get input and add velocity or acceleration to it. Input gets that from the UI, depending on what button is pressed.
 {
    ogstream gout;
-   
-   // draw a star
-   Position posStar;
-   posStar.setX(100);
-   posStar.setY(375);
-   gout.drawStar(posStar, phase);
-   phase++;
 
-   string text = "Hello World";
+   if (needToSleep)
+   {
+      Sleep(2000);
+      needToSleep = false;
+      lander.reset(ground.getUpperRight());
+      ground.reset();
+   }
 
-  /* Position posText;
-   posText.setX(-100);
-   posText.setY(-375);
+   //draw a star
+   //Position posStar;
+   //posStar.setX(random(-200, 400));
+   //posStar.setY(random(-200, 400));
+   //gout.drawStar(posStar, phase);
+   //phase++;
 
-   ogstream ogstream;
-   ogstream.drawText(posTopLeft, text);*/
+   //Position posStar2;
+   //posStar2.setX(300);
+   //posStar2.setY(375);
+   //gout.drawStar(posStar2, phase);
+   //phase++;
 
    //show50Stars();
+   drawStars(gout);
+
    // draw the ground
    ground.draw(gout);
+
+   // set position and display stats
+   Position posText;
+   posText.setX(20);
+   posText.setY(375);
+
+   gout.setPosition(posText);
+
    gout << "Fuel: " << lander.getFuel() << endl;
    gout << "Altitude: " << ground.getElevation(lander.getPosition()) << endl;
    gout << "Speed: " << lander.getSpeed() << endl;
 
+   // set position and display end message
+   Position endText;
+   endText.setX(125);
+   endText.setY(250);
 
-   // draw the lander
-   Position posLander;
-   posLander.setX(200);
-   posLander.setY(375);
-   //gout.drawLander(posLander, lander.getRadians());
-   //lander.coast(lander.input(pSimulator->thrust, gravity);
+   gout.setPosition(endText);
+
+   if (ground.hitGround(lander.getPosition(), LANDER_WIDTH))
+   {
+      gout << "Houston, we have a problem!" << endl;
+      lander.crash();
+      needToSleep = true;
+   }
+
+   if (ground.onPlatform(lander.getPosition(), LANDER_WIDTH))
+   {
+      gout << "The Eagle has landed!" << endl;
+      lander.land();
+      needToSleep = true;
+   }
+
+   // draw lander
    lander.draw(thrust, gout);
-   //cout << a.getRadians() << "\n";
-
-   //phase++;
-
 }
-
 
 /*************************************
  * CALLBACK
@@ -118,19 +171,7 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->lander.coast(pSimulator->lander.input(pSimulator->thrust, GRAVITY), TIME);
    // draw the game
    pSimulator->display();
-
-    //handle input
-   //if (pUI->isRight())
-   //   //pSimulator->lander.moveRight();
-   //   pSimulator->a.add(-0.1);
-   //if (pUI->isLeft())
-   //   //pSimulator->lander.moveLeft();  
-   //   pSimulator->a.add( 0.1);
-   //if (pUI->isDown())
-   //   //pSimulator->lander.moveDown();
-   //   gout.drawLanderFlames();
-
-
+   //pSimulator->displayStars();
 }
 
 /*********************************

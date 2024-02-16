@@ -10,7 +10,7 @@
 #include "lander.h"
 #include "acceleration.h"
 #include "thrust.h"
-
+#include "windows.h"
 
  /***************************************************************
   * RESET
@@ -18,6 +18,8 @@
   ***************************************************************/
 void Lander :: reset(const Position & posUpperRight)
 {
+   Sleep(0.5);
+
    angle.setUp();
    
    velocity.setDX(random(-10.0, -4.0));
