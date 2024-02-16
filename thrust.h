@@ -46,6 +46,7 @@ public:
    bool isMain()    const { return mainEngine == true;       }
    bool isClock()   const { return clockwise == true;        }
    bool isCounter() const { return counterClockwise == true; }
+   bool isQ()       const { return isQPress == true;            }
 
    // set the thrusters
    void set(const Interface * pUI)
@@ -53,10 +54,12 @@ public:
       mainEngine       = pUI->isDown();
       clockwise        = pUI->isLeft();
       counterClockwise = pUI->isRight();
+      isQPress         = pUI->isQ();
    }
 
 private:
    bool mainEngine;
    bool clockwise;
    bool counterClockwise;
+   bool isQPress;
 };

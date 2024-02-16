@@ -79,6 +79,11 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
       fuel = 0.0;
    }
 
+   if (thrust.isQ())
+   {
+      exit(0);
+   }
+
    return acceleration;
 }
 
